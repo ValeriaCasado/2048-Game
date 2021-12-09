@@ -8,15 +8,20 @@ class Game:
             self.p = False
         else: self.p = print_game
         self.highscore = 0
+        self.highestnumber = 0
+        self.score = 0
         self.addrandom(2)
+        
 
         # print options
         if self.p==True: print(self.grid)
 
     # Start game
     def start(self):
-        maxval = max(self.grid.flatten())
-        if maxval > self.highscore: self.highscore = maxval
+        maxv = max(self.grid.flatten())
+        if maxv > self.highestnumber: self.highestnumber = maxv
+        if self.score > self.highscore: self.highscore = self.score
+        self.score = 0
         self.grid = np.zeros((4,4), dtype=np.int64)
         self.addrandom(2)
 
@@ -26,8 +31,6 @@ class Game:
 
         # Call game over and restart clean sheet
         if len(emptyIndeces) == 0:
-            maxval = max(self.grid.flatten())
-            if maxval > self.highscore: self.highscore = maxval
             raise Exception("= = = GAME OVER = = =")
         
         for _ in range(k):
@@ -89,6 +92,7 @@ class Game:
             for j in range(i-1,-1,-1):
                 if column[j]==column[j+1] and column[j]!=0 and tracker[j]==False and tracker[j+1]==False:
                     column[j]+=column[j]
+                    self.score += column[j]
                     column[j+1]=0
                     tracker[j]=True
                 if column[j]==0 and column[j+1]!= 0:
