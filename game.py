@@ -1,4 +1,5 @@
 import numpy as np
+import random
 from scipy import ndimage, misc
 
 class Game:
@@ -38,7 +39,9 @@ class Game:
             index = np.random.choice(emptyIndeces)
             i, j = int(index/4), index-int(index/4)*4
             # Add number on that index
-            self.grid[i,j] = 2
+            if random.random() >= 0.1:
+                self.grid[i,j] = 2
+            else: self.grid[i,j] = 4
 
     def move(self, direction):
         # 0 = down
@@ -62,7 +65,7 @@ class Game:
         self.addrandom(1)
 
         # print options
-        if self.p==True: print(self.grid)
+        if self.p: print(self.grid)
 
         
     def project(self, direction):
